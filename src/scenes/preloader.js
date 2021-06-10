@@ -1,10 +1,4 @@
 import "phaser";
-import blueButton1 from '../assets/blue_button02.png';
-import blueButton2 from '../assets/blue_button03.png'
-import backgroundImg from "../assets/background.png";
-import logoImg from "../assets/logo.jpg";
-import checkboxImg from '../assets/blue_boxCheckmark.png'
-import greyBox from '../assets/grey_box.png'
 
 export default class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -17,7 +11,7 @@ export default class PreloaderScene extends Phaser.Scene {
 
   preload() {
     // add logo image
-    this.add.image(400, 200, "logo");
+    this.add.image(400,300, "logo");
 
     // display progress bar
     var progressBar = this.add.graphics();
@@ -86,12 +80,12 @@ export default class PreloaderScene extends Phaser.Scene {
     this.timedEvent = this.time.delayedCall(3000, this.ready, [], this);
 
     // load assets needed in our game
-    this.load.image('blueButton1', blueButton1);
-    this.load.image('blueButton2', blueButton2);
-    this.load.image("logo", logoImg);
-    this.load.image("box", greyBox);
-    this.load.image("checkedBox", checkboxImg);
-    this.load.image("background", backgroundImg);
+    this.load.image('blueButton1', 'assets/blue_button02.png');
+    this.load.image('blueButton2', 'assets/blue_button03.png');
+    this.load.image("logo",'assets/logo.jpg');
+    this.load.image("box", 'assets/grey_box.png');
+    this.load.image("checkedBox", 'assets/blue_boxCheckmark.png');
+    this.load.image("background", 'assets/background.png');
   }
 
   ready () {

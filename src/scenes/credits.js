@@ -1,5 +1,5 @@
 import "phaser";
-import config from '../config/config';
+import config from "../config/config";
 
 export default class CreditsScene extends Phaser.Scene {
   constructor() {
@@ -29,5 +29,28 @@ export default class CreditsScene extends Phaser.Scene {
     Phaser.Display.Align.In.Center(this.madeByText, this.zone);
 
     this.madeByText.setY(1000);
+
+    this.creditsTween = this.tweens.add({
+      targets: this.creditsText,
+      y: -100,
+      ease: "Power2",
+      duration: 3000,
+      delay: 1000,
+      onComplete: function () {
+        this.destroy;
+      },
+    });
+
+    this.madeByTween = this.tweens.add({
+      targets: this.madeByText,
+      y: -300,
+      ease: "Power2",
+      duration: 8000,
+      delay: 1000,
+      onComplete: function () {
+        this.madeByTween.destroy;
+        this.scene.start("Title");
+      }.bind(this),
+    }); 
   }
 }

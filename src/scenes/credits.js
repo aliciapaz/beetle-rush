@@ -17,6 +17,19 @@ export default class CreditsScene extends Phaser.Scene {
       fontSize: "26px",
       fill: "#fff",
     });
+    this.portfolioText = this.add.text(0, 0, "https://www.aliciarojas.me", {
+      fontSize: "26px",
+      fill: "#fff",
+    });
+    this.musicByText = this.add.text(0, 0, "Music by Matthew Pablo", {
+      fontSize: "26px",
+      fill: "#fff",
+    }); //
+    this.musicSiteText = this.add.text(0, 0, "http://www.matthewpablo.com", {
+      fontSize: "26px",
+      fill: "#fff",
+    });
+
     this.zone = this.add.zone(
       config.width / 2,
       config.height / 2,
@@ -25,16 +38,21 @@ export default class CreditsScene extends Phaser.Scene {
     );
 
     Phaser.Display.Align.In.Center(this.creditsText, this.zone);
-
     Phaser.Display.Align.In.Center(this.madeByText, this.zone);
+    Phaser.Display.Align.In.Center(this.portfolioText, this.zone);
+    Phaser.Display.Align.In.Center(this.musicByText, this.zone);
+    Phaser.Display.Align.In.Center(this.musicSiteText, this.zone);
 
     this.madeByText.setY(1000);
+    this.portfolioText.setY(1050);
+    this.musicByText.setY(1200);
+    this.musicSiteText.setY(1250);
 
     this.creditsTween = this.tweens.add({
       targets: this.creditsText,
       y: -100,
-      ease: "Power2",
-      duration: 3000,
+      ease: "Power1",
+      duration: 2000,
       delay: 1000,
       onComplete: function () {
         this.destroy;
@@ -44,13 +62,46 @@ export default class CreditsScene extends Phaser.Scene {
     this.madeByTween = this.tweens.add({
       targets: this.madeByText,
       y: -300,
-      ease: "Power2",
-      duration: 8000,
+      ease: "Power1",
+      duration: 6000,
       delay: 1000,
       onComplete: function () {
-        this.madeByTween.destroy;
+        this.destroy;
+      },
+    });
+
+    this.portfolioTween = this.tweens.add({
+      targets: this.portfolioText,
+      y: -300,
+      ease: "Power1",
+      duration: 7000,
+      delay: 1500,
+      onComplete: function () {
+        this.destroy;
+      },
+    });
+
+    this.musicByText = this.tweens.add({
+      targets: this.musicByText,
+      y: -300,
+      ease: "Power1",
+      duration: 7000,
+      delay: 3000,
+      onComplete: function () {
+        this.destroy;
+      },
+    });
+
+    this.musicByText = this.tweens.add({
+      targets: this.musicSiteText,
+      y: -300,
+      ease: "Power1",
+      duration: 7000,
+      delay: 3500,
+      onComplete: function () {
+        this.musicByText.destroy;
         this.scene.start("Title");
       }.bind(this),
-    }); 
+    });
   }
 }

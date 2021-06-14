@@ -11,19 +11,6 @@ export default class GameScene extends Phaser.Scene {
     this.playerJumps = 0;
   }
 
-  jump() {
-    if (this.player.body.touching.down || (this.playerJumps > 0 && this.playerJumps < 2)) {
-      if (this.player.body.touching.down) {
-        this.playerJumps = 0;
-      }
-      this.player.setVelocityY(500 * -1);
-      this.playerJumps += 1;
-
-      // stops animation
-      this.player.anims.stop();
-    }
-  }
-
   create() {
     // Add a scrolling background and ground
     this.background = this.add
@@ -59,11 +46,27 @@ export default class GameScene extends Phaser.Scene {
       }
     }, null);
 
-    this.input.on('pointerdown', this.jump, this);
+    this.cursors = this.input.keyboard.createCursorKeys();
+    this.canDoubleJump;
   }
 
   update() {
     this.background.tilePositionX += 1;
     this.ground.tilePositionX += 2;
+
+    this.didJump = Phaser.Input.Keyboard.JustDown(this.cursors.up);
+
+    if(this.didJump) {
+      if (this.player.body.touching.down || (this.playerJumps > 0 && this.playerJumps < 2)) {
+        if (this.player.body.touching.down) {
+          this.playerJumps = 0;
+        }
+        this.player.setVelocityY(500 * -1);
+        this.playerJumps += 1;
+      
+        // stops animation
+        this.player.anims.stop();
+      }
+    }
   }
 }

@@ -30,7 +30,7 @@ export default class GameScene extends Phaser.Scene {
     // Add player
     this.player = this.physics.add.sprite(100, 255, "beetle").setScale(2);
     this.player.setCollideWorldBounds(true);
-    this.player.setBounce(0.2);
+    this.player.setBounce(0.15);
     this.player.body.setGravityY(900);
 
     this.anims.create({
@@ -48,6 +48,9 @@ export default class GameScene extends Phaser.Scene {
 
     this.cursors = this.input.keyboard.createCursorKeys();
     this.canDoubleJump;
+
+    // Add enemies
+    //this.frog = this.physics.add.sprite(100, 255, "frog").setScale(3);
   }
 
   update() {

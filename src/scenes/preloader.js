@@ -91,12 +91,16 @@ export default class PreloaderScene extends Phaser.Scene {
       frameWidth: 48.8,
       frameHeight: 20,
     });
+    this.load.spritesheet("frog", "assets/froggy.png", {
+      frameWidth: 128,
+      frameHeight: 64,
+    });
     this.load.audio("music", "assets/shake-and-bake.mp3")
 
   }
 
   ready () {
-    this.scene.start('Game');
+    this.scene.start('Title');
 //    this.scene.start('Options');
   //   this.readyCount++;
   //   if (this.readyCount === 2) {

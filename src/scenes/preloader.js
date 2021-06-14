@@ -88,15 +88,15 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image("background", 'assets/background.png');
     this.load.image("platform", "assets/grassMid.png")
     this.load.spritesheet("beetle", "assets/beetle.png", {
-      frameWidth: 32,
-      frameHeight: 48,
+      frameWidth: 48.8,
+      frameHeight: 20,
     });
     this.load.audio("music", "assets/shake-and-bake.mp3")
 
   }
 
   ready () {
-    this.scene.start('Title');
+    this.scene.start('Game');
 //    this.scene.start('Options');
   //   this.readyCount++;
   //   if (this.readyCount === 2) {

@@ -6,6 +6,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   init() {
+    this.isGameOver = false;
     this.score = 0;
     this.scoreText = "";
     this.playerJumps = 0; // number of consecutive jumps
@@ -13,7 +14,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.cursors = this.input.keyboard.createCursorKeys();
     // Add a scrolling background and ground
     this.background = this.add
       .tileSprite(400, 300, 800, 1200, "background")
@@ -29,7 +29,7 @@ export default class GameScene extends Phaser.Scene {
       fill: "#000",
     });
 
-    // Add player
+    // Add beetle player
     this.player = this.physics.add.sprite(100, 255, "beetle").setScale(2);
     this.player.setCollideWorldBounds(true);
     this.player.setBounce(0.15);
@@ -42,6 +42,7 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
+    // Make player to collide with platform
     this.physics.add.collider(
       this.player,
       this.platform,
@@ -53,8 +54,8 @@ export default class GameScene extends Phaser.Scene {
       null
     );
 
-    // Add dug coins
-    this.dungGroup = this.add.group({
+    // Add dung coins
+    this.dungGroup = this.physics.add.group({
       defaultKey: "dung",
       maxSize: 15,
       visible: false,
@@ -81,28 +82,24 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.overlap(
       this.player,
       this.dungGroup,
-      function (player, dung) {
-        this.tweens.add({
-          targets: dung,
-          y: dung.y - 100,
-          alpha: 0,
-          duration: 800,
-          ease: "Cubic.easeOut",
-          callbackScope: this,
-          onComplete: function () {
-            this.dungGroup.killAndHide(dung);
-            this.dungGroup.remove(dung);
-          },
-        });
+      function(player, dung) {
+        this.dungGroup.killAndHide(dung)
+        this.dungGroup.remove(dung)
+        // Add and update the score
+        this.score += 5;
+        this.scoreText.setText(`Score: ${this.score}`);
       },
       null,
       this
     );
+
+    // Input keyboard events
+    this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   update() {
     this.background.tilePositionX += 1;
-    this.ground.tilePositionX += 2;
+    this.ground.tilePositionX += 6;
 
     this.didJump = Phaser.Input.Keyboard.JustDown(this.cursors.up);
 
@@ -122,12 +119,10 @@ export default class GameScene extends Phaser.Scene {
       }
     }
     this.dungGroup.incX(-6);
-    this.dungGroup.getChildren().forEach(dungCoin => {
-        if (dungCoin.active && dungCoin.x < 0) {
-            this.dungGroup.killAndHide(dungCoin);
-        }
+    this.dungGroup.getChildren().forEach((dungCoin) => {
+      if (dungCoin.active && dungCoin.x < 0) {
+        this.dungGroup.killAndHide(dungCoin);
+      }
     });
-
-
   }
 }

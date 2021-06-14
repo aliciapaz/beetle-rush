@@ -62,6 +62,7 @@ export default class GameScene extends Phaser.Scene {
       active: false,
     });
 
+    // Take objects from the dung pool for use
     this.time.addEvent({
       delay: 500,
       loop: true,
@@ -75,16 +76,13 @@ export default class GameScene extends Phaser.Scene {
       },
     });
 
-    // Add enemies
-    // this.frog = this.physics.add.sprite(100, 255, "frog").setScale(3);
-
     // Setting collisions between player and dung coins
     this.physics.add.overlap(
       this.player,
       this.dungGroup,
-      function(player, dung) {
-        this.dungGroup.killAndHide(dung)
-        this.dungGroup.remove(dung)
+      function (player, dung) {
+        this.dungGroup.killAndHide(dung);
+        this.dungGroup.remove(dung);
         // Add and update the score
         this.score += 5;
         this.scoreText.setText(`Score: ${this.score}`);
@@ -92,6 +90,35 @@ export default class GameScene extends Phaser.Scene {
       null,
       this
     );
+
+    // Add frog enemies
+    this.frogGroup = this.physics.add.group({
+      defaultKey: "frog",
+      maxSize: 5,
+      visible: false,
+      active: false,
+    });
+
+    this.anims.create({
+      key: "eat",
+      frames: this.anims.generateFrameNumbers("frog", { start: 0, end: 9 }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    // Take objects from the frog pool for use
+    this.time.addEvent({
+      delay: Math.floor((Math.random()*3000)+200),
+      loop: true,
+      callback: () => {
+        this.frogGroup
+          .get(850, 450, "frog", 1, true)
+          .setActive(true)
+          .setVisible(true)
+          .setScale(3)
+          .anims.play("eat");
+      },
+    });
 
     // Input keyboard events
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -122,6 +149,12 @@ export default class GameScene extends Phaser.Scene {
     this.dungGroup.getChildren().forEach((dungCoin) => {
       if (dungCoin.active && dungCoin.x < 0) {
         this.dungGroup.killAndHide(dungCoin);
+      }
+    });
+    this.frogGroup.incX(-6);
+    this.frogGroup.getChildren().forEach((frog) => {
+      if (frog.active && frog.x < 0) {
+        this.frogGroup.killAndHide(frog);
       }
     });
   }

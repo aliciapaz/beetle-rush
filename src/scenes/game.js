@@ -8,10 +8,12 @@ export default class GameScene extends Phaser.Scene {
   init() {
     this.score = 0;
     this.scoreText = "";
-    this.playerJumps = 0;
+    this.playerJumps = 0; // number of consecutive jumps
+    this.addedDung = 0; // keeps track of the added dung coins
   }
 
   create() {
+    this.cursors = this.input.keyboard.createCursorKeys();
     // Add a scrolling background and ground
     this.background = this.add
       .tileSprite(400, 300, 800, 1200, "background")
@@ -19,8 +21,8 @@ export default class GameScene extends Phaser.Scene {
     this.platform = this.physics.add.staticGroup();
     this.platform.create(400, 580, "platform");
     this.ground = this.add
-    .tileSprite(400, 580, 800, 70, "platform")
-    .setScrollFactor(0, 1);
+      .tileSprite(400, 580, 800, 70, "platform")
+      .setScrollFactor(0, 1);
 
     this.scoreText = this.add.text(16, 16, "score: 0", {
       fontSize: "32px",
@@ -34,23 +36,68 @@ export default class GameScene extends Phaser.Scene {
     this.player.body.setGravityY(900);
 
     this.anims.create({
-      key: 'run',
-      frames: this.anims.generateFrameNumbers('beetle', { start: 0, end: 2}),
+      key: "run",
+      frames: this.anims.generateFrameNumbers("beetle", { start: 0, end: 2 }),
       frameRate: 8,
       repeat: -1,
     });
 
-    this.physics.add.collider(this.player, this.platform, () => {
-      if (!this.player.anims.isPlaying) {
-        this.player.anims.play('run');
-      }
-    }, null);
+    this.physics.add.collider(
+      this.player,
+      this.platform,
+      () => {
+        if (!this.player.anims.isPlaying) {
+          this.player.anims.play("run");
+        }
+      },
+      null
+    );
 
-    this.cursors = this.input.keyboard.createCursorKeys();
-    this.canDoubleJump;
+    // Add dug coins
+    this.dungGroup = this.add.group({
+      defaultKey: "dung",
+      maxSize: 15,
+      visible: false,
+      active: false,
+    });
+
+    this.time.addEvent({
+      delay: 500,
+      loop: true,
+      callback: () => {
+        let dungPositionY = Math.floor(Math.random() * 3);
+        this.dungGroup
+          .get(820, [375, 520, 275][dungPositionY])
+          .setActive(true)
+          .setVisible(true)
+          .setScale(0.1);
+      },
+    });
 
     // Add enemies
-    //this.frog = this.physics.add.sprite(100, 255, "frog").setScale(3);
+    // this.frog = this.physics.add.sprite(100, 255, "frog").setScale(3);
+
+    // Setting collisions between player and dung coins
+    this.physics.add.overlap(
+      this.player,
+      this.dungGroup,
+      function (player, dung) {
+        this.tweens.add({
+          targets: dung,
+          y: dung.y - 100,
+          alpha: 0,
+          duration: 800,
+          ease: "Cubic.easeOut",
+          callbackScope: this,
+          onComplete: function () {
+            this.dungGroup.killAndHide(dung);
+            this.dungGroup.remove(dung);
+          },
+        });
+      },
+      null,
+      this
+    );
   }
 
   update() {
@@ -59,17 +106,28 @@ export default class GameScene extends Phaser.Scene {
 
     this.didJump = Phaser.Input.Keyboard.JustDown(this.cursors.up);
 
-    if(this.didJump) {
-      if (this.player.body.touching.down || (this.playerJumps > 0 && this.playerJumps < 2)) {
+    if (this.didJump) {
+      if (
+        this.player.body.touching.down ||
+        (this.playerJumps > 0 && this.playerJumps < 2)
+      ) {
         if (this.player.body.touching.down) {
           this.playerJumps = 0;
         }
         this.player.setVelocityY(500 * -1);
         this.playerJumps += 1;
-      
+
         // stops animation
         this.player.anims.stop();
       }
     }
+    this.dungGroup.incX(-6);
+    this.dungGroup.getChildren().forEach(dungCoin => {
+        if (dungCoin.active && dungCoin.x < 0) {
+            this.dungGroup.killAndHide(dungCoin);
+        }
+    });
+
+
   }
 }

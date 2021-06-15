@@ -49,6 +49,8 @@ export default class GameScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(100, 255, "beetle").setScale(2);
     this.player.setCollideWorldBounds(true);
     this.player.setBounce(0.1);
+    this.player.setSize(24.2);
+    this.player.setDepth(2);
     this.player.body.setGravityY(900);
 
     // Make player to collide with platform
@@ -78,7 +80,7 @@ export default class GameScene extends Phaser.Scene {
       callback: () => {
         let dungPositionY = Math.floor(Math.random() * 3);
         this.dungGroup
-          .get(820, [375, 520, 275][dungPositionY])
+          .get(820, [275, 375, 528][dungPositionY])
           .setActive(true)
           .setVisible(true)
           .setScale(0.1);
@@ -106,13 +108,6 @@ export default class GameScene extends Phaser.Scene {
       maxSize: 10,
       visible: false,
       active: false,
-      createCallback: function (alien) {
-        alien.setName("alien" + this.getLength());
-        console.log("Created", alien.name);
-      },
-      removeCallback: function (alien) {
-        console.log("Removed", alien.name);
-      },
     });
 
     // Take objects from the frog pool for use
@@ -122,19 +117,37 @@ export default class GameScene extends Phaser.Scene {
       callback: () => {
         const frogPositionX = Phaser.Math.Between(850, 1600);
         this.frogGroup
-          .get(frogPositionX, 450)
+          .get(frogPositionX, 510)
           .setActive(true)
           .setVisible(true)
           .setScale(3)
+          .setSize(16)
+          .setDepth(2)
           .anims.play("eat");
       },
     });
+
+
+    // Set collisions between player and frogs
+    this.physics.add.overlap(
+      this.player,
+      this.frogGroup,
+      function () {
+        this.isGameOver = true;
+      },
+      null,
+      this
+    );
 
     // Input keyboard events
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   update() {
+    if (this.isGameOver === true) {
+      this.scene.start("Title", { score: Phaser.Math.RoundTo(this.score, 0) });
+    }
+
     this.background.tilePositionX += 1;
     this.ground.tilePositionX += 6;
 

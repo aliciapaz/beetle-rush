@@ -97,7 +97,7 @@ export default class PreloaderScene extends Phaser.Scene {
     });
     this.load.spritesheet("frog", "assets/froggy.png", {
       frameWidth: 128,
-      frameHeight: 64,
+      frameHeight: 24,
     });
     this.load.audio("music", "assets/shake-and-bake.mp3");
   }

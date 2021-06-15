@@ -1,8 +1,8 @@
 import "phaser";
 import config from "../config/config";
-import Button from '../objects/button';
+import Button from "../objects/button";
 
-export default class GameOverScene extends Phaser.Scene {
+class GameOverScene extends Phaser.Scene {
   constructor() {
     super("GameOver");
   }
@@ -20,21 +20,69 @@ export default class GameOverScene extends Phaser.Scene {
 
     this.zone = this.add.zone(
       config.width / 2,
-      config.height / 2,
+      config.height / 4,
       config.width,
       config.height
     );
 
     Phaser.Display.Align.In.Center(this.gameOverText, this.zone);
 
-    this.saveButton = new Button (this, new Button(this, 400, 500, 'blueButton1', 'blueButton2', 'Menu', 'Title'))
+    // Add form
 
-    this.saveButton.on("pointerover", function (event, gameObjects) {
-      this.setTexture("blueButton2");
+    document.body.appendChild(createForm());
+
+    // Save button
+
+    this.saveButton = this.add.sprite(200, 500, "blueButton1").setInteractive();
+    this.saveText = this.add.text(200, 500, "Save", {
+      fontSize: "32px",
+      fill: "#fff",
     });
 
-    this.saveButton.on("pointerout", function (event, gameObjects) {
-      this.setTexture("blueButton1");
+    this.saveButton.on("pointerdown", function () {
+      console.log("saved");
+      if (!this.saved) {
+      }
     });
+
+    this.saveButton.on(
+      "pointerover",
+      function () {
+        this.saveButton.setTexture("blueButton2");
+      }.bind(this)
+    );
+
+    this.saveButton.on(
+      "pointerout",
+      function () {
+        this.saveButton.setTexture("blueButton1");
+      }.bind(this)
+    );
+
+    Phaser.Display.Align.In.Center(this.saveText, this.saveButton);
+
+    // Menu button
+
+    this.menuButton = new Button(
+      this,
+      new Button(this, 600, 500, "blueButton1", "blueButton2", "Menu", "Title")
+    );
   }
 }
+
+const createForm = () => {
+  const formContainer = document.createElement("form");
+  formContainer.className = "form-container";
+
+  const nameLabel = document.createElement("label");
+  nameLabel.textContent = "Enter your name";
+
+  const nameInput = document.createElement("input");
+  nameInput.setAttribute("name", "name");
+  
+  formContainer.appendChild(nameLabel);
+  formContainer.appendChild(nameInput);
+  return formContainer;
+};
+
+export { GameOverScene, createForm };

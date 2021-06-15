@@ -1,0 +1,23 @@
+body {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 24px;
+}
+
+.form-container {
+  position: absolute;
+  top: 300px;
+  left: 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container input {
+  font-size: 24px;
+  height: 40px
+}
+
+
+.form-container label {
+  color: #fff;
+  text-align: center;
+}

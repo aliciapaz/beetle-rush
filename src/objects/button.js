@@ -16,6 +16,8 @@ export default class Button extends Phaser.GameObjects.Container {
  
     this.button.on('pointerdown', function () {
       this.scene.scene.start(targetScene);
+        const form = document.querySelector('.form-container')
+        if (form != undefined) {form.remove()}
     }.bind(this));
  
     this.button.on('pointerover', function () {

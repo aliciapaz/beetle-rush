@@ -145,7 +145,7 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     if (this.isGameOver === true) {
-      this.scene.start("Title", { score: Phaser.Math.RoundTo(this.score, 0) });
+      this.scene.start("GameOver", { score: Phaser.Math.RoundTo(this.score, 0) });
     }
 
     this.background.tilePositionX += 1;

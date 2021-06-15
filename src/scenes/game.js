@@ -14,6 +14,22 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
+    // Animate player
+    this.anims.create({
+      key: "run",
+      frames: this.anims.generateFrameNumbers("beetle", { start: 0, end: 2 }),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    // Animate frogs
+    this.anims.create({
+      key: "eat",
+      frames: this.anims.generateFrameNumbers("frog", { start: 0, end: 9 }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
     // Add a scrolling background and ground
     this.background = this.add
       .tileSprite(400, 300, 800, 1200, "background")
@@ -32,15 +48,8 @@ export default class GameScene extends Phaser.Scene {
     // Add beetle player
     this.player = this.physics.add.sprite(100, 255, "beetle").setScale(2);
     this.player.setCollideWorldBounds(true);
-    this.player.setBounce(0.15);
+    this.player.setBounce(0.1);
     this.player.body.setGravityY(900);
-
-    this.anims.create({
-      key: "run",
-      frames: this.anims.generateFrameNumbers("beetle", { start: 0, end: 2 }),
-      frameRate: 8,
-      repeat: -1,
-    });
 
     // Make player to collide with platform
     this.physics.add.collider(
@@ -94,25 +103,26 @@ export default class GameScene extends Phaser.Scene {
     // Add frog enemies
     this.frogGroup = this.physics.add.group({
       defaultKey: "frog",
-      maxSize: 5,
+      maxSize: 10,
       visible: false,
       active: false,
-    });
-
-    this.anims.create({
-      key: "eat",
-      frames: this.anims.generateFrameNumbers("frog", { start: 0, end: 9 }),
-      frameRate: 6,
-      repeat: -1,
+      createCallback: function (alien) {
+        alien.setName("alien" + this.getLength());
+        console.log("Created", alien.name);
+      },
+      removeCallback: function (alien) {
+        console.log("Removed", alien.name);
+      },
     });
 
     // Take objects from the frog pool for use
     this.time.addEvent({
-      delay: Math.floor((Math.random()*3000)+200),
+      delay: 2000,
       loop: true,
       callback: () => {
+        const frogPositionX = Phaser.Math.Between(850, 1600);
         this.frogGroup
-          .get(850, 450, "frog", 1, true)
+          .get(frogPositionX, 450)
           .setActive(true)
           .setVisible(true)
           .setScale(3)

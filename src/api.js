@@ -1,4 +1,5 @@
 import "regenerator-runtime/runtime.js";
+import fetch from 'node-fetch';
 
 const gameID = "0dKDZBvYDCcOFsNLJkfD";
 const url = "https://us-central1-js-capstone-backend.cloudfunctions.net/api";

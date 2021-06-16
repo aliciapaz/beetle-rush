@@ -21,3 +21,16 @@ body {
   color: #fff;
   text-align: center;
 }
+
+.scores-table {
+  width: 600px;
+  position: absolute;
+  top: 150px;
+  left: 200px;
+  color: #fff;
+  font-size: 28px;
+}
+
+th {
+  text-align: left;
+}

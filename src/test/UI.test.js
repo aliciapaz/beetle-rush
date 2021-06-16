@@ -2,12 +2,12 @@
  * @jest-environment jsdom
  */
 
+import { removeElements } from "../objects/button";
 import { createForm } from "../scenes/gameOver";
 import { createTable } from "../scenes/leaderboard";
 
 test("creates a form", () => {
   const nameForm = createForm();
-  document.body.appendChild(nameForm);
   expect(nameForm.tagName).toBe("FORM");
 });
 
@@ -32,3 +32,11 @@ test("creates a table with top 5 scores of an array", () => {
   expect(table.childElementCount).toBe(6); // the table has 5 score rows + 1 head row
   expect(table.childNodes[1].firstChild.innerHTML).toEqual('nev') 
 });
+
+test('removes elements from html', () => {
+  const form = document.createElement('TABLE')
+  form.className = 'scores-table'
+  document.body.appendChild(form)
+  removeElements()
+  expect(document.querySelector('.scores-table')).toBe(null)
+})

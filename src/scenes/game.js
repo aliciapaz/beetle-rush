@@ -1,14 +1,14 @@
-import "phaser";
+import Phaser from 'phaser';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
-    super("Game");
+    super('Game');
   }
 
   init() {
     this.isGameOver = false;
     this.score = 0;
-    this.scoreText = "";
+    this.scoreText = '';
     this.playerJumps = 0; // number of consecutive jumps
     this.addedDung = 0; // keeps track of the added dung coins
   }
@@ -16,37 +16,37 @@ export default class GameScene extends Phaser.Scene {
   create() {
     // Animate player
     this.anims.create({
-      key: "run",
-      frames: this.anims.generateFrameNumbers("beetle", { start: 0, end: 2 }),
+      key: 'run',
+      frames: this.anims.generateFrameNumbers('beetle', { start: 0, end: 2 }),
       frameRate: 8,
       repeat: -1,
     });
 
     // Animate frogs
     this.anims.create({
-      key: "eat",
-      frames: this.anims.generateFrameNumbers("frog", { start: 0, end: 9 }),
+      key: 'eat',
+      frames: this.anims.generateFrameNumbers('frog', { start: 0, end: 9 }),
       frameRate: 6,
       repeat: -1,
     });
 
     // Add a scrolling background and ground
     this.background = this.add
-      .tileSprite(400, 300, 800, 1200, "background")
+      .tileSprite(400, 300, 800, 1200, 'background')
       .setScrollFactor(0, 1);
     this.platform = this.physics.add.staticGroup();
-    this.platform.create(400, 580, "platform");
+    this.platform.create(400, 580, 'platform');
     this.ground = this.add
-      .tileSprite(400, 580, 800, 70, "platform")
+      .tileSprite(400, 580, 800, 70, 'platform')
       .setScrollFactor(0, 1);
 
-    this.scoreText = this.add.text(16, 16, "score: 0", {
-      fontSize: "32px",
-      fill: "#000",
+    this.scoreText = this.add.text(16, 16, 'score: 0', {
+      fontSize: '32px',
+      fill: '#000',
     });
 
     // Add beetle player
-    this.player = this.physics.add.sprite(100, 255, "beetle").setScale(2);
+    this.player = this.physics.add.sprite(100, 255, 'beetle').setScale(2);
     this.player.setCollideWorldBounds(true);
     this.player.setBounce(0.1);
     this.player.setSize(24.2);
@@ -59,15 +59,15 @@ export default class GameScene extends Phaser.Scene {
       this.platform,
       () => {
         if (!this.player.anims.isPlaying) {
-          this.player.anims.play("run");
+          this.player.anims.play('run');
         }
       },
-      null
+      null,
     );
 
     // Add dung coins
     this.dungGroup = this.physics.add.group({
-      defaultKey: "dung",
+      defaultKey: 'dung',
       maxSize: 15,
       visible: false,
       active: false,
@@ -78,7 +78,7 @@ export default class GameScene extends Phaser.Scene {
       delay: 500,
       loop: true,
       callback: () => {
-        let dungPositionY = Math.floor(Math.random() * 3);
+        const dungPositionY = Math.floor(Math.random() * 3);
         this.dungGroup
           .get(820, [275, 375, 528][dungPositionY])
           .setActive(true)
@@ -99,12 +99,12 @@ export default class GameScene extends Phaser.Scene {
         this.scoreText.setText(`Score: ${this.score}`);
       },
       null,
-      this
+      this,
     );
 
     // Add frog enemies
     this.frogGroup = this.physics.add.group({
-      defaultKey: "frog",
+      defaultKey: 'frog',
       maxSize: 10,
       visible: false,
       active: false,
@@ -123,10 +123,9 @@ export default class GameScene extends Phaser.Scene {
           .setScale(3)
           .setSize(12)
           .setDepth(2)
-          .anims.play("eat");
+          .anims.play('eat');
       },
     });
-
 
     // Set collisions between player and frogs
     this.physics.add.overlap(
@@ -136,7 +135,7 @@ export default class GameScene extends Phaser.Scene {
         this.isGameOver = true;
       },
       null,
-      this
+      this,
     );
 
     // Input keyboard events
@@ -145,7 +144,7 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     if (this.isGameOver === true) {
-      this.scene.start("GameOver", { score: Phaser.Math.RoundTo(this.score, 0) });
+      this.scene.start('GameOver', { score: Phaser.Math.RoundTo(this.score, 0) });
     }
 
     this.background.tilePositionX += 1;
@@ -155,8 +154,8 @@ export default class GameScene extends Phaser.Scene {
 
     if (this.didJump) {
       if (
-        this.player.body.touching.down ||
-        (this.playerJumps > 0 && this.playerJumps < 2)
+        this.player.body.touching.down
+        || (this.playerJumps > 0 && this.playerJumps < 2)
       ) {
         if (this.player.body.touching.down) {
           this.playerJumps = 0;

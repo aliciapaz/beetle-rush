@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import Phaser from 'phaser';
 import config from '../config/config';
 
@@ -55,6 +53,7 @@ export default class CreditsScene extends Phaser.Scene {
       duration: 2000,
       delay: 1000,
       onComplete() {
+        // eslint-disable-next-line
         this.destroy;
       },
     });
@@ -66,6 +65,7 @@ export default class CreditsScene extends Phaser.Scene {
       duration: 6000,
       delay: 1000,
       onComplete() {
+        // eslint-disable-next-line
         this.destroy;
       },
     });
@@ -77,6 +77,7 @@ export default class CreditsScene extends Phaser.Scene {
       duration: 7000,
       delay: 1500,
       onComplete() {
+        // eslint-disable-next-line
         this.destroy;
       },
     });
@@ -88,6 +89,7 @@ export default class CreditsScene extends Phaser.Scene {
       duration: 7000,
       delay: 3000,
       onComplete() {
+        // eslint-disable-next-line
         this.destroy;
       },
     });
@@ -99,6 +101,7 @@ export default class CreditsScene extends Phaser.Scene {
       duration: 7000,
       delay: 3500,
       onComplete: function () {
+        // eslint-disable-next-line
         this.musicByText.destroy;
         this.scene.start('Title');
       }.bind(this),

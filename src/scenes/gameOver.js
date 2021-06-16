@@ -45,7 +45,6 @@ class GameOverScene extends Phaser.Scene {
       config.height,
     );
 
-    //    Phaser.Display.Align.In.Center(this.gameOverText, this.zone);
     Phaser.Display.Align.In.Center(this.scoreText, this.zone);
 
     // Add form

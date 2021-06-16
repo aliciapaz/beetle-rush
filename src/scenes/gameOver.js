@@ -13,19 +13,25 @@ class GameOverScene extends Phaser.Scene {
   }
 
   create() {
-    this.gameOverText = this.add.text(0, 0, "Game Over", {
+    this.gameOverText = this.add.text(310, 100, "Game Over", {
       fontSize: "32px",
       fill: "#fff",
     });
 
+    this.scoreText = this.add.text(0,0, `Your score: ${this.score}`, {
+      fontSize: "32px",
+      fill: "#fff"
+    })
+
     this.zone = this.add.zone(
       config.width / 2,
-      config.height / 4,
+      config.height / 3,
       config.width,
       config.height
     );
 
-    Phaser.Display.Align.In.Center(this.gameOverText, this.zone);
+//    Phaser.Display.Align.In.Center(this.gameOverText, this.zone);
+    Phaser.Display.Align.In.Center(this.scoreText, this.zone);
 
     // Add form
 

@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 const gameID = '0dKDZBvYDCcOFsNLJkfD';
 const url = 'https://us-central1-js-capstone-backend.cloudfunctions.net/api';
 
-async function setScore(name, score) {
+const  setScore = async (name, score) => {
   const params = {};
   params.user = name || 'Beetle';
   params.score = score;
@@ -16,10 +16,11 @@ async function setScore(name, score) {
   return response.json();
 }
 
-async function getScores() {
+const getScores = async () => {
   const response = await fetch(`${url}/games/${gameID}/scores/`);
   const savedScores = await response.json();
   return savedScores.result;
 }
+
 
 export { setScore, getScores };

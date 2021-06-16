@@ -1,5 +1,5 @@
 import "phaser";
-import './style.css';
+import "./style.css";
 import config from "./config/config";
 import GameScene from "./scenes/game";
 import BootScene from "./scenes/boot";
@@ -9,7 +9,7 @@ import OptionsScene from "./scenes/options";
 import CreditsScene from "./scenes/credits";
 import Model from "./model";
 import { GameOverScene } from "./scenes/gameOver";
-import ScoresScene from "./scenes/leaderboard";
+import { ScoresScene } from "./scenes/leaderboard";
 
 class Game extends Phaser.Game {
   constructor() {

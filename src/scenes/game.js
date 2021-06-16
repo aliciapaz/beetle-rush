@@ -121,7 +121,7 @@ export default class GameScene extends Phaser.Scene {
           .setActive(true)
           .setVisible(true)
           .setScale(3)
-          .setSize(16)
+          .setSize(12)
           .setDepth(2)
           .anims.play("eat");
       },

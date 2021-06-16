@@ -1,6 +1,6 @@
 import 'phaser';
  
-export default class Button extends Phaser.GameObjects.Container {
+class Button extends Phaser.GameObjects.Container {
   constructor(scene, x, y, key1, key2, text, targetScene) {
     super(scene);
     this.scene = scene;
@@ -16,8 +16,7 @@ export default class Button extends Phaser.GameObjects.Container {
  
     this.button.on('pointerdown', function () {
       this.scene.scene.start(targetScene);
-        const form = document.querySelector('.form-container')
-        if (form != undefined) {form.remove()}
+      removeElements()
     }.bind(this));
  
     this.button.on('pointerover', function () {
@@ -31,3 +30,12 @@ export default class Button extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
   }
 }
+
+const removeElements = () => {
+  const form = document.querySelector('.form-container')
+  if (form != undefined) {form.remove()}
+  const table = document.querySelector('.scores-table')
+  if (table != undefined) {table.remove()}
+}
+
+export { Button, removeElements }

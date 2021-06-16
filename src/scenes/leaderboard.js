@@ -1,5 +1,5 @@
 import "phaser";
-import Button from "../objects/button";
+import {Button} from "../objects/button";
 import config from "../config/config";
 
 class ScoresScene extends Phaser.Scene {
@@ -8,8 +8,7 @@ class ScoresScene extends Phaser.Scene {
   }
 
   init(data) {
-    console.log(data);
-    // this.score = data.score;
+    this.scores = data
   }
 
   create() {
@@ -33,6 +32,8 @@ class ScoresScene extends Phaser.Scene {
       this,
       new Button(this, 400, 500, "blueButton1", "blueButton2", "Menu", "Title")
     );
+
+    document.body.appendChild(createTable(this.scores))
   }
 }
 
@@ -45,6 +46,7 @@ const sortScores = (data) => {
 
 const createTable = (scores) => {
   const table = document.createElement("table");
+  table.className = 'scores-table'
   const headerRow = document.createElement("tr");
   const nameHeader = document.createElement("th");
   const scoreHeader = document.createElement("th");

@@ -1,6 +1,6 @@
 import "phaser";
 import config from "../config/config";
-import Button from "../objects/button";
+import { Button } from "../objects/button";
 import * as scoreBoard from "../api";
 
 class GameOverScene extends Phaser.Scene {
@@ -18,10 +18,10 @@ class GameOverScene extends Phaser.Scene {
       fill: "#fff",
     });
 
-    this.scoreText = this.add.text(0,0, `Your score: ${this.score}`, {
+    this.scoreText = this.add.text(0, 0, `Your score: ${this.score}`, {
       fontSize: "32px",
-      fill: "#fff"
-    })
+      fill: "#fff",
+    });
 
     this.zone = this.add.zone(
       config.width / 2,
@@ -30,7 +30,7 @@ class GameOverScene extends Phaser.Scene {
       config.height
     );
 
-//    Phaser.Display.Align.In.Center(this.gameOverText, this.zone);
+    //    Phaser.Display.Align.In.Center(this.gameOverText, this.zone);
     Phaser.Display.Align.In.Center(this.scoreText, this.zone);
 
     // Add form

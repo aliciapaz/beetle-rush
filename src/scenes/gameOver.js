@@ -1,6 +1,7 @@
 import "phaser";
 import config from "../config/config";
 import Button from "../objects/button";
+import * as scoreBoard from "../api";
 
 class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -9,7 +10,6 @@ class GameOverScene extends Phaser.Scene {
 
   init(data) {
     this.score = data.score;
-    this.saved = false;
   }
 
   create() {
@@ -39,10 +39,17 @@ class GameOverScene extends Phaser.Scene {
       fill: "#fff",
     });
 
+    const that = this;
     this.saveButton.on("pointerdown", function () {
-      console.log("saved");
-      if (!this.saved) {
+      const playerName = document.querySelector('[name = "name"]').value;
+      const form = document.querySelector(".form-container");
+      if (form != undefined) {
+        form.remove();
       }
+      scoreBoard.setScore(playerName, that.score);
+      scoreBoard.getScores().then((result) => {
+        that.scene.start("Scores", result);
+      });
     });
 
     this.saveButton.on(
@@ -79,7 +86,7 @@ const createForm = () => {
 
   const nameInput = document.createElement("input");
   nameInput.setAttribute("name", "name");
-  
+
   formContainer.appendChild(nameLabel);
   formContainer.appendChild(nameInput);
   return formContainer;

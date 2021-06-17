@@ -48,7 +48,6 @@ export default class GameScene extends Phaser.Scene {
     // Add beetle player
     this.player = this.physics.add.sprite(100, 255, 'beetle').setScale(2);
     this.player.setCollideWorldBounds(true);
-    this.player.setBounce(0.1);
     this.player.setSize(24.2);
     this.player.setDepth(2);
     this.player.body.setGravityY(900);
@@ -120,8 +119,8 @@ export default class GameScene extends Phaser.Scene {
           .get(frogPositionX, 510)
           .setActive(true)
           .setVisible(true)
+          .setSize(8, 8)
           .setScale(3)
-          .setSize(12)
           .setDepth(2)
           .anims.play('eat');
       },

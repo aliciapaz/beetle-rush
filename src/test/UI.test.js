@@ -27,7 +27,7 @@ test('does not have a title input', () => {
   const nameForm = createForm();
   document.body.appendChild(nameForm);
   const nameInput = document.querySelector('[name = "title"]');
-  expect(nameInput).toBe(null)
+  expect(nameInput).toBe(null);
 });
 
 test('creates a table with top 5 scores of an array', () => {

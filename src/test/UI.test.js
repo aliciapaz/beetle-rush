@@ -11,11 +11,23 @@ test('creates a form', () => {
   expect(nameForm.tagName).toBe('FORM');
 });
 
+test('does not create a div', () => {
+  const nameForm = createForm();
+  expect(nameForm.tagName).not.toBe('DIV');
+});
+
 test('has a name input', () => {
   const nameForm = createForm();
   document.body.appendChild(nameForm);
   const nameInput = document.querySelector('[name = "name"]');
   expect(nameInput.tagName).toBe('INPUT');
+});
+
+test('does not have a title input', () => {
+  const nameForm = createForm();
+  document.body.appendChild(nameForm);
+  const nameInput = document.querySelector('[name = "title"]');
+  expect(nameInput).toBe(null)
 });
 
 test('creates a table with top 5 scores of an array', () => {

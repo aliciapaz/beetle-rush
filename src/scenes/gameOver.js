@@ -66,9 +66,10 @@ class GameOverScene extends Phaser.Scene {
       if (form !== null) {
         form.remove();
       }
-      scoreBoard.setScore(playerName, that.score);
-      scoreBoard.getScores().then((result) => {
-        that.scene.start('Scores', result);
+      scoreBoard.setScore(playerName, that.score).then(() => {
+        scoreBoard.getScores().then((result) => {
+          that.scene.start('Scores', result);
+        });
       });
     });
 

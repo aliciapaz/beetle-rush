@@ -100,6 +100,7 @@ export default class CreditsScene extends Phaser.Scene {
       ease: 'Power1',
       duration: 7000,
       delay: 3500,
+      // eslint-disable-next-line
       onComplete: function () {
         // eslint-disable-next-line
         this.musicByText.destroy;

@@ -27,11 +27,11 @@ export default class OptionsScene extends Phaser.Scene {
 
     this.menuButton = new Button(this, 400, 500, 'blueButton1', 'blueButton2', 'Menu', 'Title');
 
-    this.menuButton.on('pointerover', function () {
+    this.menuButton.on('pointerover', () => {
       this.setTexture('blueButton2');
     });
 
-    this.menuButton.on('pointerout', function () {
+    this.menuButton.on('pointerout', () => {
       this.setTexture('blueButton1');
     });
   }

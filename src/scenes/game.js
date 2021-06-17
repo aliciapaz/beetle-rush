@@ -90,7 +90,7 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.overlap(
       this.player,
       this.dungGroup,
-      function (player, dung) {
+      (player, dung) => {
         this.dungGroup.killAndHide(dung);
         this.dungGroup.remove(dung);
         // Add and update the score
@@ -130,7 +130,7 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.overlap(
       this.player,
       this.frogGroup,
-      function () {
+      () => {
         this.isGameOver = true;
       },
       null,

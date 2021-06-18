@@ -47,7 +47,7 @@ module.exports = {
       WEBGL_RENDERER: JSON.stringify(true),
     }),
     new HtmlWebpackPlugin({
-      title: 'Beetle Rush',
+      template: "./index.html"
     }),
   ],
 };

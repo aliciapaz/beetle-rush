@@ -1,5 +1,6 @@
 import "regenerator-runtime/runtime";
 import fetch from "node-fetch";
+import { displayError } from "./scenes/gameOver";
 
 const gameID = "0dKDZBvYDCcOFsNLJkfD";
 const url = "https://us-central1-js-capstone-backend.cloudfunctions.net/api";
@@ -20,6 +21,7 @@ const setScore = async (name, score) => {
     }
     return message
   } catch(error) {
+    displayError(error)
     return error
   }
 };

@@ -18,6 +18,13 @@ const createForm = () => {
   return formContainer;
 };
 
+const displayError = (error) => {
+  const errors = document.getElementById('error-container');
+  errors.innerHTML = error;
+  errors.style.display = 'block';
+  setTimeout(() => { errors.style.display = 'none'; }, 3000);
+};
+
 class GameOverScene extends Phaser.Scene {
   constructor() {
     super('GameOver');
@@ -98,4 +105,4 @@ class GameOverScene extends Phaser.Scene {
   }
 }
 
-export { GameOverScene, createForm };
+export { GameOverScene, createForm, displayError };

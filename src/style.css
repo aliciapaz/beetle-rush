@@ -33,3 +33,9 @@ body {
 th {
   text-align: left;
 }
+
+#error-container {
+  background-color: rgba(243, 23, 23, 0.7);
+  line-height: 3rem;
+  text-align: center;
+}

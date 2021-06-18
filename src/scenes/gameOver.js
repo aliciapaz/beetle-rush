@@ -1,29 +1,8 @@
 import Phaser from 'phaser';
 import config from '../config/config';
 import { Button } from '../objects/button';
+import createForm from '../objects/form';
 import * as scoreBoard from '../api';
-
-const createForm = () => {
-  const formContainer = document.createElement('form');
-  formContainer.className = 'form-container';
-
-  const nameLabel = document.createElement('label');
-  nameLabel.textContent = 'Enter your name';
-
-  const nameInput = document.createElement('input');
-  nameInput.setAttribute('name', 'name');
-
-  formContainer.appendChild(nameLabel);
-  formContainer.appendChild(nameInput);
-  return formContainer;
-};
-
-const displayError = (error) => {
-  const errors = document.getElementById('error-container');
-  errors.innerHTML = error;
-  errors.style.display = 'block';
-  setTimeout(() => { errors.style.display = 'none'; }, 3000);
-};
 
 class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -105,4 +84,4 @@ class GameOverScene extends Phaser.Scene {
   }
 }
 
-export { GameOverScene, createForm, displayError };
+export { GameOverScene, createForm };

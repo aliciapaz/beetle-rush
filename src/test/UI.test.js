@@ -2,13 +2,13 @@
  * @jest-environment jsdom
  */
 
+import createForm from '../objects/form';
+import displayError from '../objects/errorMsg';
 import { removeElements } from '../objects/button';
-import { createForm } from '../scenes/gameOver';
 import { createTable } from '../scenes/leaderboard';
-import {displayError} from '../scenes/gameOver';
 
 afterEach(() => {
-  document.body.innerHTML= '';
+  document.body.innerHTML = '';
 });
 
 test('creates a form', () => {
@@ -58,25 +58,21 @@ test('removes elements from html', () => {
   expect(document.querySelector('.scores-table')).toBe(null);
 });
 
-test('displays an error message', ()=> {
-    // Set up our document body
-    document.body.innerHTML =
-    '<div id="error-container">'
-    '</div>';
-  let errorMsg = 'wrong!'
-  displayError(errorMsg)
-  const errorContainer = document.getElementById('error-container')
-  expect(errorContainer.style.display).toEqual('block');
-  expect(errorContainer.innerHTML).toEqual('wrong!')
-})
-
-test('hides the error message after 3 seconds', ()=> {
+test('displays an error message', () => {
   // Set up our document body
-  document.body.innerHTML =
-  '<div id="error-container">'
-  '</div>';
-let errorMsg = 'wrong!'
-displayError(errorMsg)
-const errorContainer = document.getElementById('error-container')
-setTimeout(()=> {expect(errorContainer.style.display).toEqual('none')}, 3500)
-})
+  document.body.innerHTML = '<div id="error-container"></div>';
+  const errorMsg = 'wrong!';
+  displayError(errorMsg);
+  const errorContainer = document.getElementById('error-container');
+  expect(errorContainer.style.display).toEqual('block');
+  expect(errorContainer.innerHTML).toEqual('wrong!');
+});
+
+test('hides the error message after 3 seconds', () => {
+  // Set up our document body
+  document.body.innerHTML = '<div id="error-container"></div>';
+  const errorMsg = 'wrong!';
+  displayError(errorMsg);
+  const errorContainer = document.getElementById('error-container');
+  setTimeout(() => { expect(errorContainer.style.display).toEqual('none'); }, 3500);
+});

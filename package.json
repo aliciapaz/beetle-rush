@@ -4,7 +4,7 @@
   "description": "An endless runner game built with Phaser 3 that makes a dung beetle run through the forest while collecting manure and avoiding predators.",
   "main": "index.js",
   "scripts": {
-    "test": "jest src/test",
+    "test": "jest",
     "watch": "jest --watch",
     "build": "webpack --config webpack/prod.js ",
     "start": "webpack serve --config webpack/base.js --open"

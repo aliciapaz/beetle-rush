@@ -21,7 +21,7 @@ describe('set score async function', () => {
 
   test('fails when saving empty score to the leaderboard', async () => {
     fetch.mockImplementationOnce(() => Promise.reject(new Error('API is Down')));
-    await expect(setScore('', '')).resolves.toEqual({ message: 'You need to provide a valid score for the leaderboard' });
+    await expect(setScore('', '')).resolves.toThrow('You need to provide a valid score for the leaderboard');
   });
 });
 

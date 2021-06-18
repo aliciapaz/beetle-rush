@@ -1,0 +1,64 @@
+body {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #81b214;
+}
+
+canvas {
+  box-shadow:
+    rgba(0, 0, 0, 0.07) 0 1px 2px,
+    rgba(0, 0, 0, 0.07) 0 2px 4px,
+    rgba(0, 0, 0, 0.07) 0 4px 8px,
+    rgba(0, 0, 0, 0.07) 0 8px 16px,
+    rgba(0, 0, 0, 0.07) 0 16px 32px,
+    rgba(0, 0, 0, 0.07) 0 32px 64px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.form-container {
+  position: absolute;
+  top: 380px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container input {
+  font-size: 24px;
+  height: 40px;
+}
+
+.form-container label {
+  color: #fff;
+  text-align: center;
+}
+
+.scores-table {
+  width: 600px;
+  position: absolute;
+  top: 290px;
+  color: #fff;
+  font-size: 28px;
+}
+
+th {
+  text-align: left;
+}
+
+#error-container {
+  background-color: rgba(243, 23, 23, 0.7);
+  line-height: 3rem;
+  text-align: center;
+}

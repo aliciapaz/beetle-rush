@@ -5,6 +5,11 @@
 import { removeElements } from '../objects/button';
 import { createForm } from '../scenes/gameOver';
 import { createTable } from '../scenes/leaderboard';
+import {displayError} from '../scenes/gameOver';
+
+afterEach(() => {
+  document.body.innerHTML= '';
+});
 
 test('creates a form', () => {
   const nameForm = createForm();
@@ -52,3 +57,26 @@ test('removes elements from html', () => {
   removeElements();
   expect(document.querySelector('.scores-table')).toBe(null);
 });
+
+test('displays an error message', ()=> {
+    // Set up our document body
+    document.body.innerHTML =
+    '<div id="error-container">'
+    '</div>';
+  let errorMsg = 'wrong!'
+  displayError(errorMsg)
+  const errorContainer = document.getElementById('error-container')
+  expect(errorContainer.style.display).toEqual('block');
+  expect(errorContainer.innerHTML).toEqual('wrong!')
+})
+
+test('hides the error message after 3 seconds', ()=> {
+  // Set up our document body
+  document.body.innerHTML =
+  '<div id="error-container">'
+  '</div>';
+let errorMsg = 'wrong!'
+displayError(errorMsg)
+const errorContainer = document.getElementById('error-container')
+setTimeout(()=> {expect(errorContainer.style.display).toEqual('none')}, 3500)
+})

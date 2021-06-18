@@ -11,7 +11,7 @@ const setScore = async (name, score) => {
     params.user = name || "Beetle";
     params.score = score;
     const response = await fetch(`${url}/games/${gameID}/scores/`, {
-      method: "POST",
+      method: "POST", 
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(params),
     });

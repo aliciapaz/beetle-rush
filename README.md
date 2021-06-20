@@ -102,7 +102,7 @@ The process for adding frogs to the game was similar to adding the dung coins, w
 
 #### 5. Implement a scoring system
 
-Because JavaScript is much more exciting without asynchronous code, I implemented a leaderboard that uses an API to save and retreive scores. 
+Because JavaScript is much more exciting with asynchronous code, I implemented a leaderboard that uses an API to save and retreive scores. 
 
 #### 6. Testing the user experience 
 

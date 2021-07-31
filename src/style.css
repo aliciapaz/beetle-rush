@@ -19,12 +19,12 @@ canvas {
     rgba(0, 0, 0, 0.07) 0 8px 16px,
     rgba(0, 0, 0, 0.07) 0 16px 32px,
     rgba(0, 0, 0, 0.07) 0 32px 64px;
-    margin-bottom: 50px;
+  margin-bottom: 50px;
 }
 
 footer {
   position: relative;
-  top: 680px;  
+  top: 680px;
   padding: 1rem;
   margin-bottom: 1rem;
   display: flex;

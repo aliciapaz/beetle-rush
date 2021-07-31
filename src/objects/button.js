@@ -22,8 +22,8 @@ class Button extends Phaser.GameObjects.Container {
     this.add(this.text);
 
     this.button.on('pointerdown', () => {
-      this.scene.scene.start(targetScene);
       removeElements();
+      this.scene.scene.start(targetScene);
     });
 
     this.button.on('pointerover', () => {

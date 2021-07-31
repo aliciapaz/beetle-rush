@@ -16,10 +16,10 @@ export default class HelpScene extends Phaser.Scene {
       fill: '#fff',
     });
 
-    this.upKey = this.add.image(200, 200, 'upkey')
-    this.upKey = this.add.image(200, 250, 'upkey')
-    this.upKey = this.add.image(140, 250, 'upkey')
-    
+    this.upKey = this.add.image(200, 200, 'upkey');
+    this.upKey = this.add.image(200, 250, 'upkey');
+    this.upKey = this.add.image(140, 250, 'upkey');
+
     this.jumpText = this.add.text(240, 185, 'Jump', {
       fontSize: '32px',
       fill: '#fff',
@@ -40,6 +40,4 @@ export default class HelpScene extends Phaser.Scene {
       this.setTexture('blueButton1');
     });
   }
-
 }
-

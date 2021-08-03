@@ -72,17 +72,36 @@ export default class GameScene extends Phaser.Scene {
       active: false,
     });
 
-    // Take objects from the dung pool for use
+    // Add toxic dung
+    this.toxicDungGroup = this.physics.add.group({
+      defaultKey: 'toxicDung',
+      maxSize: 15,
+      visible: false,
+      active: false,
+    }) 
+
+
+    // Take objects from the dung and toxic dung pool for use
     this.time.addEvent({
       delay: 500,
       loop: true,
       callback: () => {
         const dungPositionY = Math.floor(Math.random() * 3);
-        this.dungGroup
+        let random = Math.floor(Math.random() * 100) + 1;
+        if (random >= 20) {
+          this.dungGroup
           .get(820, [275, 375, 528][dungPositionY])
           .setActive(true)
           .setVisible(true)
           .setScale(0.1);
+        } else {
+            this.toxicDungGroup
+            .get(820, [275, 375, 528][dungPositionY])
+            .setActive(true)
+            .setVisible(true)
+            .setSize(4, 2)
+            .setScale(0.1);
+        }
       },
     });
 
@@ -96,6 +115,17 @@ export default class GameScene extends Phaser.Scene {
         // Add and update the score
         this.score += 5;
         this.scoreText.setText(`Score: ${this.score}`);
+      },
+      null,
+      this,
+    );
+
+    // Setting collisions between player and toxic dung coins
+    this.physics.add.overlap(
+      this.player,
+      this.toxicDungGroup,
+      () => {
+        this.isGameOver = true;
       },
       null,
       this,
@@ -172,6 +202,14 @@ export default class GameScene extends Phaser.Scene {
         this.dungGroup.killAndHide(dungCoin);
       }
     });
+
+    this.toxicDungGroup.incX(-6);
+    this.toxicDungGroup.getChildren().forEach((dungCoin) => {
+      if (dungCoin.active && dungCoin.x < 0) {
+        this.toxicDungGroup.killAndHide(dungCoin);
+      }
+    });
+
     this.frogGroup.incX(-6);
     this.frogGroup.getChildren().forEach((frog) => {
       if (frog.active && frog.x < 0) {

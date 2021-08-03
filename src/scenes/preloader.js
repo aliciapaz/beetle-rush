@@ -86,6 +86,8 @@ export default class PreloaderScene extends Phaser.Scene {
     // load assets needed in our game
     this.load.image('blueButton1', 'assets/blue_button02.png');
     this.load.image('blueButton2', 'assets/blue_button03.png');
+    this.load.image('upKeyButton', 'assets/upkey_button.png');
+    this.load.image('logo', 'assets/logo.jpg');
     this.load.image('box', 'assets/grey_box.png');
     this.load.image('checkedBox', 'assets/blue_boxCheckmark.png');
     this.load.image('logo', 'assets/logo.jpg');
@@ -93,6 +95,7 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('background', 'assets/background.png');
     this.load.image('platform', 'assets/grassMid.png');
     this.load.image('dung', 'assets/dung.png');
+    this.load.image('toxicDung', 'assets/toxic_dung.png')
     this.load.spritesheet('beetle', 'assets/beetle.png', {
       frameWidth: 48.8,
       frameHeight: 20,

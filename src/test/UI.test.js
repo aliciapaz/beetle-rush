@@ -5,7 +5,7 @@
 import createForm from '../objects/form';
 import displayError from '../objects/errorMsg';
 import { removeElements } from '../objects/button';
-import { createTable } from '../scenes/leaderboard';
+import { createTable } from '../scenes/scores';
 
 afterEach(() => {
   document.body.innerHTML = '';

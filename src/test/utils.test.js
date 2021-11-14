@@ -3,7 +3,7 @@
  */
 
 import { setScore, getScores } from '../api';
-import { sortScores } from '../scenes/leaderboard';
+import { sortScores } from '../scenes/scores';
 
 global.fetch = jest.fn(() => Promise.resolve({
   json: () => Promise.resolve('Resolve'),

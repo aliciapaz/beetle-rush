@@ -95,7 +95,7 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('background', 'assets/background.png');
     this.load.image('platform', 'assets/grassMid.png');
     this.load.image('dung', 'assets/dung.png');
-    this.load.image('toxicDung', 'assets/toxic_dung.png')
+    this.load.image('toxicDung', 'assets/toxic_dung.png');
     this.load.spritesheet('beetle', 'assets/beetle.png', {
       frameWidth: 48.8,
       frameHeight: 20,

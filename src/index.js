@@ -9,7 +9,7 @@ import OptionsScene from './scenes/options';
 import HelpScene from './scenes/help';
 import Model from './model';
 import { GameOverScene } from './scenes/gameOver';
-import { ScoresScene } from './scenes/leaderboard';
+import { ScoresScene } from './scenes/scores';
 
 class Game extends Phaser.Game {
   constructor() {

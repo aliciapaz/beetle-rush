@@ -33,7 +33,7 @@ export default class TitleScene extends Phaser.Scene {
       'Options',
     );
 
-    // Credits
+    // Help
     this.creditsButton = new Button(
       this,
       config.width / 2,

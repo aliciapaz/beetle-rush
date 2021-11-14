@@ -96,7 +96,6 @@ export default class GameScene extends Phaser.Scene {
       active: false,
     });
 
-
     // Take objects from the dung and toxic dung pool for use
     this.time.addEvent({
       delay: 500,

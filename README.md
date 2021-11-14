@@ -12,7 +12,7 @@
 
 ## Live Demo
 
-Play the live demo [here](https://optimistic-thompson-062a68.netlify.app/)!!
+Play the live demo [here](https://adoring-goldstine-1746f4.netlify.app/)!!
 
 ## Getting Started
 

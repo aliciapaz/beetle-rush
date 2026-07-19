@@ -5,6 +5,8 @@ import {
   ingestPesticideDung,
   isEcosystemCollapsed,
 } from '../config/soilHealth';
+import { createNoteQueue, enqueueOnFirstEncounter, flushNotes } from '../objects/noteQueue';
+import { getNote } from '../config/ecologyNotes';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -15,6 +17,7 @@ export default class GameScene extends Phaser.Scene {
     this.isGameOver = false;
     this.soilHealth = SOIL_HEALTH_BASELINE;
     this.soilHealthText = '';
+    this.noteQueue = createNoteQueue();
     this.playerJumps = 0; // number of consecutive jumps
     this.addedDung = 0; // keeps track of the added dung coins
   }
@@ -136,6 +139,7 @@ export default class GameScene extends Phaser.Scene {
         // Recycling clean dung improves soil health
         this.soilHealth = recycleCleanDung(this.soilHealth);
         this.updateSoilHealth();
+        enqueueOnFirstEncounter(this.noteQueue, 'cleanDung', getNote('cleanDung'));
       },
       null,
       this,
@@ -151,6 +155,7 @@ export default class GameScene extends Phaser.Scene {
         // Pesticide-contaminated dung harms soil health
         this.soilHealth = ingestPesticideDung(this.soilHealth);
         this.updateSoilHealth();
+        enqueueOnFirstEncounter(this.noteQueue, 'pesticideDung', getNote('pesticideDung'));
       },
       null,
       this,
@@ -186,6 +191,7 @@ export default class GameScene extends Phaser.Scene {
       this.player,
       this.frogGroup,
       () => {
+        enqueueOnFirstEncounter(this.noteQueue, 'frog', getNote('frog'));
         this.isGameOver = true;
       },
       null,
@@ -202,7 +208,10 @@ export default class GameScene extends Phaser.Scene {
     }
 
     if (this.isGameOver === true) {
-      this.scene.start('GameOver', { soilHealth: Phaser.Math.RoundTo(this.soilHealth, 0) });
+      this.scene.start('GameOver', {
+        soilHealth: Phaser.Math.RoundTo(this.soilHealth, 0),
+        notes: flushNotes(this.noteQueue),
+      });
     }
 
     this.background.tilePositionX += 1;

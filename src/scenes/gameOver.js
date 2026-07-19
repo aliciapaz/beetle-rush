@@ -11,6 +11,7 @@ class GameOverScene extends Phaser.Scene {
 
   init(data) {
     this.soilHealth = data.soilHealth;
+    this.notes = data.notes || [];
   }
 
   create() {
@@ -32,6 +33,18 @@ class GameOverScene extends Phaser.Scene {
     );
 
     Phaser.Display.Align.In.Center(this.scoreText, this.zone);
+
+    // Ecology notes gathered this run, surfaced here at the natural beat
+    if (this.notes.length > 0) {
+      this.notesText = this.add
+        .text(config.width / 2, 220, this.notes.join('\n\n'), {
+          fontSize: '16px',
+          fill: '#fff',
+          align: 'center',
+          wordWrap: { width: config.width - 120 },
+        })
+        .setOrigin(0.5, 0);
+    }
 
     // Add form
 

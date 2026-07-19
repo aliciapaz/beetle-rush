@@ -16,8 +16,8 @@ export default class GameScene extends Phaser.Scene {
   init() {
     this.isGameOver = false;
     this.soilHealth = SOIL_HEALTH_BASELINE;
-    this.soilHealthText = '';
     this.noteQueue = createNoteQueue();
+    this.gameOverStarted = false;
     this.playerJumps = 0; // number of consecutive jumps
     this.addedDung = 0; // keeps track of the added dung coins
   }
@@ -207,11 +207,13 @@ export default class GameScene extends Phaser.Scene {
       this.isGameOver = true;
     }
 
-    if (this.isGameOver === true) {
+    if (this.isGameOver === true && !this.gameOverStarted) {
+      this.gameOverStarted = true;
       this.scene.start('GameOver', {
         soilHealth: Phaser.Math.RoundTo(this.soilHealth, 0),
         notes: flushNotes(this.noteQueue),
       });
+      return;
     }
 
     this.background.tilePositionX += 1;

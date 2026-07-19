@@ -20,7 +20,7 @@ class GameOverScene extends Phaser.Scene {
       fill: '#fff',
     });
 
-    this.scoreText = this.add.text(0, 0, `Soil health restored: ${this.soilHealth}`, {
+    this.soilHealthText = this.add.text(0, 0, `Soil health restored: ${this.soilHealth}`, {
       fontSize: '32px',
       fill: '#fff',
     });
@@ -32,7 +32,7 @@ class GameOverScene extends Phaser.Scene {
       config.height,
     );
 
-    Phaser.Display.Align.In.Center(this.scoreText, this.zone);
+    Phaser.Display.Align.In.Center(this.soilHealthText, this.zone);
 
     // Ecology notes gathered this run, surfaced here at the natural beat
     if (this.notes.length > 0) {

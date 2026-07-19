@@ -3,7 +3,7 @@ import {
   enqueueOnFirstEncounter,
   flushNotes,
 } from '../objects/noteQueue';
-import { getNote } from '../config/ecologyNotes';
+import { getNote, ECOLOGY_NOTES } from '../config/ecologyNotes';
 
 describe('note queue', () => {
   // Covers AE3: a first encounter produces a note, but not during the run.
@@ -29,6 +29,13 @@ describe('note queue', () => {
     expect(flushNotes(q)).toEqual([]);
   });
 
+  test('first-encounter dedupe survives a flush (notes never re-enqueue in a run)', () => {
+    const q = createNoteQueue();
+    enqueueOnFirstEncounter(q, 'bird', 'a bird note');
+    flushNotes(q);
+    expect(enqueueOnFirstEncounter(q, 'bird', 'a bird note')).toBe(false);
+  });
+
   // Covers AE4: nothing about the queue blocks play — enqueue is a pure,
   // non-throwing bookkeeping call the run never has to wait on.
   test('enqueueing many notes never blocks or throws', () => {
@@ -41,8 +48,8 @@ describe('note queue', () => {
 });
 
 describe('ecology notes', () => {
-  test('resolves content for a known species key', () => {
-    expect(typeof getNote('frog')).toBe('string');
+  test('resolves the exact note content for a known species key', () => {
+    expect(getNote('frog')).toBe(ECOLOGY_NOTES.frog);
   });
 
   test('returns null for an unknown key rather than throwing', () => {

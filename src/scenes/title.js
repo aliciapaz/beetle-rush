@@ -44,6 +44,17 @@ export default class TitleScene extends Phaser.Scene {
       'Help',
     );
 
+    // Why this game exists
+    this.whyButton = new Button(
+      this,
+      config.width / 2,
+      config.height / 2 + 150,
+      'blueButton1',
+      'blueButton2',
+      'Why',
+      'Mission',
+    );
+
     this.model = this.sys.game.globals.model;
     if (this.model.musicOn === true && this.model.bgMusicPlaying === false) {
       this.bgMusic = this.sound.add('music', { volume: 0.5, loop: true });

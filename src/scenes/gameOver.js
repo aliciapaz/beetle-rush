@@ -10,7 +10,7 @@ class GameOverScene extends Phaser.Scene {
   }
 
   init(data) {
-    this.score = data.score;
+    this.soilHealth = data.soilHealth;
   }
 
   create() {
@@ -19,7 +19,7 @@ class GameOverScene extends Phaser.Scene {
       fill: '#fff',
     });
 
-    this.scoreText = this.add.text(0, 0, `Your score: ${this.score}`, {
+    this.scoreText = this.add.text(0, 0, `Soil health restored: ${this.soilHealth}`, {
       fontSize: '32px',
       fill: '#fff',
     });
@@ -52,7 +52,7 @@ class GameOverScene extends Phaser.Scene {
       if (form !== null) {
         form.remove();
       }
-      scoreBoard.setScore(playerName, that.score).then(() => {
+      scoreBoard.setScore(playerName, that.soilHealth).then(() => {
         scoreBoard.getScores().then((result) => {
           that.scene.start('Scores', result);
         });

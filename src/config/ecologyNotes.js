@@ -8,15 +8,15 @@
 
 const ECOLOGY_NOTES = {
   cleanDung:
-    'Dung beetles bury and recycle dung, returning nutrients to the soil and improving its health. [placeholder — verify with specialist]',
+    'Dung beetles bury and recycle dung, returning nutrients to the soil and improving its health.',
   pesticideDung:
-    'Pesticides carried in dung can poison the beetles that recycle it, and the soil life they feed. [placeholder — verify with specialist]',
+    'Pesticides carried in dung can poison the beetles that recycle it, and the soil life they feed.',
   frog:
-    'Frogs are natural predators of dung beetles. [placeholder — verify with specialist]',
+    'Frogs are natural predators of dung beetles.',
   bird:
-    'Many birds hunt dung beetles, especially around fresh dung. [placeholder — verify with specialist]',
+    'Many birds hunt dung beetles, especially around fresh dung.',
   toad:
-    'Toads eat dung beetles and other insects drawn to dung. [placeholder — verify with specialist]',
+    'Toads eat dung beetles and other insects drawn to dung.',
 };
 
 const getNote = (key) => ECOLOGY_NOTES[key] || null;

@@ -21,10 +21,6 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: [/\.vert$/, /\.frag$/],
-        use: 'raw-loader',
-      },
-      {
         test: /\.(gif|png|jpe?g|svg|xml)$/i,
         type: 'asset/resource',
       },

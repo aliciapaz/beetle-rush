@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import config from '../config/config';
-import { Button } from '../objects/button';
+import Button from '../objects/button';
 import MISSION_COPY from '../config/mission';
 
 export default class MissionScene extends Phaser.Scene {

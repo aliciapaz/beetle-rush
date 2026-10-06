@@ -1,8 +1,6 @@
 import Phaser from 'phaser';
 import config from '../config/config';
-import { Button } from '../objects/button';
-import createForm from '../objects/form';
-import * as scoreBoard from '../api';
+import Button from '../objects/button';
 
 class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -34,67 +32,50 @@ class GameOverScene extends Phaser.Scene {
 
     Phaser.Display.Align.In.Center(this.soilHealthText, this.zone);
 
-    // Ecology notes gathered this run, surfaced here at the natural beat
+    // Ecology notes gathered this run, surfaced first; dismissing them
+    // reveals the menu button
     if (this.notes.length > 0) {
-      this.notesText = this.add
-        .text(config.width / 2, 220, this.notes.join('\n\n'), {
-          fontSize: '16px',
-          fill: '#fff',
-          align: 'center',
-          wordWrap: { width: config.width - 120 },
-        })
-        .setOrigin(0.5, 0);
+      this.showNotes();
+    } else {
+      this.showMenuButton();
     }
+  }
 
-    // Add form
+  showNotes() {
+    const notesText = this.add
+      .text(config.width / 2, 220, this.notes.join('\n\n'), {
+        fontSize: '16px',
+        fill: '#fff',
+        align: 'center',
+        wordWrap: { width: config.width - 120 },
+      })
+      .setOrigin(0.5, 0);
 
-    document.body.appendChild(createForm());
-
-    // Save button
-
-    this.saveButton = this.add.sprite(200, 500, 'blueButton1').setInteractive();
-    this.saveText = this.add.text(200, 500, 'Save', {
-      fontSize: '32px',
+    const continueButton = this.add
+      .sprite(config.width / 2, config.height - 60, 'blueButton1')
+      .setInteractive();
+    const continueText = this.add.text(0, 0, 'Continue', {
+      fontSize: '24px',
       fill: '#fff',
     });
+    Phaser.Display.Align.In.Center(continueText, continueButton);
 
-    const that = this;
-    this.saveButton.on('pointerdown', () => {
-      const playerName = document.querySelector('[name = "name"]').value;
-      const form = document.querySelector('.form-container');
-      if (form !== null) {
-        form.remove();
-      }
-      scoreBoard.setScore(playerName, that.soilHealth).then(() => {
-        scoreBoard.getScores().then((result) => {
-          that.scene.start('Scores', result);
-        });
-      });
+    continueButton.on('pointerover', () => continueButton.setTexture('blueButton2'));
+    continueButton.on('pointerout', () => continueButton.setTexture('blueButton1'));
+    continueButton.on('pointerdown', () => {
+      [notesText, continueButton, continueText].forEach((item) => item.destroy());
+      this.showMenuButton();
     });
+  }
 
-    this.saveButton.on(
-      'pointerover',
-      () => {
-        this.saveButton.setTexture('blueButton2');
-      },
-    );
-
-    this.saveButton.on(
-      'pointerout',
-      () => {
-        this.saveButton.setTexture('blueButton1');
-      },
-    );
-
-    Phaser.Display.Align.In.Center(this.saveText, this.saveButton);
-
+  showMenuButton() {
     // Menu button
 
     this.menuButton = new Button(
       this,
-      new Button(this, 600, 500, 'blueButton1', 'blueButton2', 'Menu', 'Title'),
+      new Button(this, config.width / 2, 500, 'blueButton1', 'blueButton2', 'Menu', 'Title'),
     );
   }
 }
 
-export { GameOverScene, createForm };
+export default GameOverScene;

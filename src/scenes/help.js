@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Button } from '../objects/button';
+import Button from '../objects/button';
 
 export default class HelpScene extends Phaser.Scene {
   constructor() {

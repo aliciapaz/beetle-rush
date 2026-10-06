@@ -40,9 +40,9 @@ To get a local copy up and running follow these simple example steps.
 - Avoid frogs by jumping over their heads
 - If two frogs appear very close to each other, use the double jump to evade them both!
 
-#### Save your score
-- When the game is over, you can choose between saving your score or going back to the main menu
-- If you choose "Save", you will check the leaderboard. If your score is among the top five, you will see your name in the leaderboard!!
+#### End of a run
+- When the game is over, you will see how much soil health you restored
+- The first time you meet a species or event in a run, you will read a short note about it before going back to the main menu
 
 ## Game Design (GDD)
 

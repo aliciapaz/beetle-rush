@@ -1,12 +1,5 @@
 import Phaser from 'phaser';
 
-const removeElements = () => {
-  const form = document.querySelector('.form-container');
-  if (form !== null) { form.remove(); }
-  const table = document.querySelector('.scores-table');
-  if (table !== null) { table.remove(); }
-};
-
 class Button extends Phaser.GameObjects.Container {
   constructor(scene, x, y, key1, key2, text, targetScene) {
     super(scene);
@@ -22,7 +15,6 @@ class Button extends Phaser.GameObjects.Container {
     this.add(this.text);
 
     this.button.on('pointerdown', () => {
-      removeElements();
       this.scene.scene.start(targetScene);
     });
 
@@ -38,4 +30,4 @@ class Button extends Phaser.GameObjects.Container {
   }
 }
 
-export { Button, removeElements };
+export default Button;

@@ -34,38 +34,3 @@ footer {
   height: 50px;
   margin-top: 20px;
 }
-
-.form-container {
-  position: absolute;
-  top: 450px;
-  display: flex;
-  flex-direction: column;
-}
-
-.form-container input {
-  font-size: 24px;
-  height: 40px;
-}
-
-.form-container label {
-  color: #fff;
-  text-align: center;
-}
-
-.scores-table {
-  width: 600px;
-  position: absolute;
-  top: 320px;
-  color: #fff;
-  font-size: 28px;
-}
-
-th {
-  text-align: left;
-}
-
-#error-container {
-  background-color: rgba(243, 23, 23, 0.7);
-  line-height: 3rem;
-  text-align: center;
-}

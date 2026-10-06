@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import config from '../config/config';
-import { Button } from '../objects/button';
-import { getScores } from '../api';
+import Button from '../objects/button';
 
 export default class TitleScene extends Phaser.Scene {
   constructor() {
@@ -44,6 +43,17 @@ export default class TitleScene extends Phaser.Scene {
       'Help',
     );
 
+    // Why this game exists
+    this.whyButton = new Button(
+      this,
+      config.width / 2,
+      config.height / 2 + 150,
+      'blueButton1',
+      'blueButton2',
+      'Why',
+      'Mission',
+    );
+
     this.model = this.sys.game.globals.model;
     if (this.model.musicOn === true && this.model.bgMusicPlaying === false) {
       this.bgMusic = this.sound.add('music', { volume: 0.5, loop: true });
@@ -51,35 +61,5 @@ export default class TitleScene extends Phaser.Scene {
       this.model.bgMusicPlaying = true;
       this.sys.game.globals.bgMusic = this.bgMusic;
     }
-
-    // Leaderboard
-
-    this.leaderboardButton = this.add
-      .sprite(config.width / 2, config.height / 2 + 200, 'blueButton1')
-      .setInteractive();
-    this.leaderboardText = this.add.text(0, 0, 'Scores', {
-      fontSize: '32px',
-      fill: '#fff',
-    });
-
-    this.leaderboardButton.on('pointerover', () => {
-      this.leaderboardButton.setTexture('blueButton2');
-    });
-
-    this.leaderboardButton.on('pointerout', () => {
-      this.leaderboardButton.setTexture('blueButton1');
-    });
-
-    const that = this;
-    this.leaderboardButton.on('pointerdown', () => {
-      getScores().then((result) => {
-        that.scene.start('Scores', result);
-      });
-    });
-
-    Phaser.Display.Align.In.Center(
-      this.leaderboardText,
-      this.leaderboardButton,
-    );
   }
 }

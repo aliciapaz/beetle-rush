@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Button } from '../objects/button';
+import Button from '../objects/button';
 
 export default class HelpScene extends Phaser.Scene {
   constructor() {
@@ -21,7 +21,7 @@ export default class HelpScene extends Phaser.Scene {
     this.upKey = this.add.image(110, 210, 'upkey');
     this.dungIcon = this.add.image(170, 265, 'dung');
     this.dungIcon.scale = 0.12;
-    this.toxicdungIcon = this.add.image(170, 325, 'toxicDung');
+    this.toxicdungIcon = this.add.image(170, 325, 'pesticideDung');
     this.toxicdungIcon.scale = 0.12;
 
     this.jumpText = this.add.text(210, 135, 'Jump', {

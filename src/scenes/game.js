@@ -1,4 +1,12 @@
 import Phaser from 'phaser';
+import {
+  SOIL_HEALTH_BASELINE,
+  recycleCleanDung,
+  ingestPesticideDung,
+  isEcosystemCollapsed,
+} from '../config/soilHealth';
+import { createNoteQueue, enqueueOnFirstEncounter, flushNotes } from '../objects/noteQueue';
+import { getNote } from '../config/ecologyNotes';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -7,11 +15,11 @@ export default class GameScene extends Phaser.Scene {
 
   init() {
     this.isGameOver = false;
-    this.score = 0;
-    this.scoreText = '';
+    this.soilHealth = SOIL_HEALTH_BASELINE;
+    this.noteQueue = createNoteQueue();
+    this.gameOverStarted = false;
     this.playerJumps = 0; // number of consecutive jumps
     this.addedDung = 0; // keeps track of the added dung coins
-    this.healthPoints = 100; // initial health points
   }
 
   create() {
@@ -41,25 +49,26 @@ export default class GameScene extends Phaser.Scene {
       .tileSprite(400, 580, 800, 70, 'platform')
       .setScrollFactor(0, 1);
 
-    this.scoreText = this.add.text(16, 16, 'score: 0', {
+    this.soilHealthText = this.add.text(16, 16, `Soil health: ${this.soilHealth}`, {
       fontSize: '32px',
       fill: '#000',
     });
 
-    // Health bar
-    const healthBar = this.add.graphics();
-    const healthBox = this.add.graphics();
-    healthBox.fillStyle(0x222222, 0.1);
-    healthBox.fillRect(510, 16, 270, 30);
-    healthBar.fillStyle(0x00ff23, 1);
-    healthBar.fillRect(511, 17, 270, 28);
+    // Soil-health bar (visual reference scaled to twice the baseline)
+    const soilHealthBar = this.add.graphics();
+    const soilHealthBox = this.add.graphics();
+    soilHealthBox.fillStyle(0x222222, 0.1);
+    soilHealthBox.fillRect(510, 16, 270, 30);
 
-    // Update health bar
-    this.updateHealthBar = (points) => {
-      healthBar.clear();
-      healthBar.fillStyle(0x00ff23, 1);
-      healthBar.fillRect(511, 17, 270 * (points / 100), 28);
+    const soilHealthBarMax = SOIL_HEALTH_BASELINE * 2;
+    this.updateSoilHealth = () => {
+      this.soilHealthText.setText(`Soil health: ${this.soilHealth}`);
+      const fraction = Math.max(0, Math.min(1, this.soilHealth / soilHealthBarMax));
+      soilHealthBar.clear();
+      soilHealthBar.fillStyle(0x00ff23, 1);
+      soilHealthBar.fillRect(511, 17, 270 * fraction, 28);
     };
+    this.updateSoilHealth();
 
     // Add beetle player
     this.player = this.physics.add.sprite(100, 255, 'beetle').setScale(2);
@@ -88,15 +97,15 @@ export default class GameScene extends Phaser.Scene {
       active: false,
     });
 
-    // Add toxic dung
-    this.toxicDungGroup = this.physics.add.group({
-      defaultKey: 'toxicDung',
+    // Add pesticide-contaminated dung
+    this.pesticideDungGroup = this.physics.add.group({
+      defaultKey: 'pesticideDung',
       maxSize: 15,
       visible: false,
       active: false,
     });
 
-    // Take objects from the dung and toxic dung pool for use
+    // Take objects from the dung and pesticide dung pool for use
     this.time.addEvent({
       delay: 500,
       loop: true,
@@ -110,7 +119,7 @@ export default class GameScene extends Phaser.Scene {
             .setVisible(true)
             .setScale(0.1);
         } else {
-          this.toxicDungGroup
+          this.pesticideDungGroup
             .get(820, [275, 375, 528][dungPositionY])
             .setActive(true)
             .setVisible(true)
@@ -127,24 +136,26 @@ export default class GameScene extends Phaser.Scene {
       (player, dung) => {
         this.dungGroup.killAndHide(dung);
         this.dungGroup.remove(dung);
-        // Add and update the score
-        this.score += 5;
-        this.scoreText.setText(`Score: ${this.score}`);
+        // Recycling clean dung improves soil health
+        this.soilHealth = recycleCleanDung(this.soilHealth);
+        this.updateSoilHealth();
+        enqueueOnFirstEncounter(this.noteQueue, 'cleanDung', getNote('cleanDung'));
       },
       null,
       this,
     );
 
-    // Setting collisions between player and toxic dung coins
+    // Setting collisions between player and pesticide-contaminated dung
     this.physics.add.overlap(
       this.player,
-      this.toxicDungGroup,
+      this.pesticideDungGroup,
       (player, dung) => {
-        this.toxicDungGroup.killAndHide(dung);
-        this.toxicDungGroup.remove(dung);
-        // Take healthpoints and update health bar
-        this.healthPoints -= 5;
-        this.updateHealthBar(this.healthPoints);
+        this.pesticideDungGroup.killAndHide(dung);
+        this.pesticideDungGroup.remove(dung);
+        // Pesticide-contaminated dung harms soil health
+        this.soilHealth = ingestPesticideDung(this.soilHealth);
+        this.updateSoilHealth();
+        enqueueOnFirstEncounter(this.noteQueue, 'pesticideDung', getNote('pesticideDung'));
       },
       null,
       this,
@@ -180,6 +191,7 @@ export default class GameScene extends Phaser.Scene {
       this.player,
       this.frogGroup,
       () => {
+        enqueueOnFirstEncounter(this.noteQueue, 'frog', getNote('frog'));
         this.isGameOver = true;
       },
       null,
@@ -191,12 +203,17 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-    if (this.healthPoints === 0) {
+    if (isEcosystemCollapsed(this.soilHealth)) {
       this.isGameOver = true;
     }
 
-    if (this.isGameOver === true) {
-      this.scene.start('GameOver', { score: Phaser.Math.RoundTo(this.score, 0) });
+    if (this.isGameOver === true && !this.gameOverStarted) {
+      this.gameOverStarted = true;
+      this.scene.start('GameOver', {
+        soilHealth: Phaser.Math.RoundTo(this.soilHealth, 0),
+        notes: flushNotes(this.noteQueue),
+      });
+      return;
     }
 
     this.background.tilePositionX += 1;
@@ -226,10 +243,10 @@ export default class GameScene extends Phaser.Scene {
       }
     });
 
-    this.toxicDungGroup.incX(-6);
-    this.toxicDungGroup.getChildren().forEach((dungCoin) => {
+    this.pesticideDungGroup.incX(-6);
+    this.pesticideDungGroup.getChildren().forEach((dungCoin) => {
       if (dungCoin.active && dungCoin.x < 0) {
-        this.toxicDungGroup.killAndHide(dungCoin);
+        this.pesticideDungGroup.killAndHide(dungCoin);
       }
     });
 
